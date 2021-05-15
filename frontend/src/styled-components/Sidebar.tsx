@@ -1,7 +1,17 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
+type NameLink = {
+  name: string;
+  path: string;
+};
+
 interface Props {
+  toggle: boolean;
+  list: NameLink[];
+}
+interface Toggle {
   toggle: boolean;
 }
 
@@ -18,7 +28,7 @@ const SidebarContainer = styled.div`
   display: flex;
   justify-content: center;
 
-  transform: ${(props: Props) =>
+  transform: ${(props: Toggle) =>
     props.toggle ? "translateX(-100%)" : "translateX(0)"};
 
   transition: all 0.5s ease-in;
@@ -57,14 +67,21 @@ const SidebarLink = styled.li`
   color: white;
 `;
 
-const Sidebar = ({ toggle }: Props) => {
+const Sidebar = ({ toggle, list }: Props) => {
   return (
     <SidebarContainer toggle={toggle}>
       <SidebarNav>
         <SidebarUL>
-          <SidebarLink>Hi</SidebarLink>
-          <SidebarLink>Hi</SidebarLink>
-          <SidebarLink>Hi</SidebarLink>
+          {list.map((item, index) => (
+            <SidebarLink key={index}>
+              <Link
+                style={{ textDecoration: "none", color: "white" }}
+                to={item.path}
+              >
+                {item.name}
+              </Link>
+            </SidebarLink>
+          ))}
         </SidebarUL>
       </SidebarNav>
     </SidebarContainer>

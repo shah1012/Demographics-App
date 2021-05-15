@@ -67,10 +67,15 @@ const FormWrapper = styled.div`
   height: 91vh;
 `;
 
-const InputForm = () => {
+interface Props {
+  inputValue: string;
+  setInputValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const InputForm = ({ inputValue, setInputValue }: Props) => {
   return (
     <FormWrapper>
-      <InputField />
+      <InputField onChange={(e) => setInputValue(e)} value={inputValue} />
       <InputButton>Submit</InputButton>
     </FormWrapper>
   );

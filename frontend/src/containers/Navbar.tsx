@@ -1,6 +1,7 @@
 import React, { FC, useState } from "react";
 import Header from "../styled-components/header";
-import LinkComponent from "../styled-components/Sidebar";
+import Sidebar from "../styled-components/Sidebar";
+import { NavbarList } from "../data/NavbarList";
 
 const Navbar: FC = () => {
   const [toggle, setToggle] = useState(true);
@@ -10,7 +11,7 @@ const Navbar: FC = () => {
   };
   return (
     <>
-      <LinkComponent toggle={toggle} />
+      <Sidebar toggle={toggle} list={NavbarList} />
       <Header updateToggle={updateToggle} />
     </>
   );
