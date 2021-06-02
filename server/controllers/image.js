@@ -1,17 +1,19 @@
-import Clarifai from "clarifai";
+const express = require("express");
+const dotenv = require("dotenv");
+const Clarifai = require("clarifai");
 
-import dotenv from "dotenv";
 dotenv.config();
+const route = express.Router();
 
 const app = new Clarifai.App({
-  apiKey: process.env.MODEL_KEY,
+  apiKey: process.env.API_KEY,
 });
 
-export const handleFetch = (req, res) => {
+route.post("/", async (req, res) => {
   app.models
-    .predict(Clarifai.DEMOGRAPHICS_MODEL, req.body.input)
-    .then((data) => {
-      res.json(data);
-    })
-    .catch((err) => res.status(400).json("Unable to work with api"));
-};
+    .predict(Clarifai.LOGO_MODEL, req.body.url)
+    .then((data) => res.json(data.outputs[0]))
+    .catch((err) => console.log(err));
+});
+
+module.exports = route;

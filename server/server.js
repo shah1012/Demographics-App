@@ -1,24 +1,23 @@
-import express from "express";
+const cors = require("cors");
+const express = require("express");
 const app = express();
-// Body Parser
-app.use(express.urlencoded({ extended: false }));
+
+const { Image, Login, Signup } = require("./controllers/index");
+
+//parsers
 app.use(express.json());
+app.use(cors());
 
-//controllers
-import { handleFetch } from "./controllers/image.js";
-
-const port = process.env.PORT || 3001;
-
-// routes
-
+// controllers
 app.get("/", (req, res) => {
-  res.json({
-    name: "hello",
-  });
+  res.json("Connected to the server");
 });
 
-app.get("/imageurl", (req, res) => {
-  handleFetch(req, res);
-});
+app.use("/api/image", Image);
+app.use("/login", Login);
+app.use("/register", Signup);
 
-app.listen(port);
+// listen
+app.listen(3001, () => {
+  console.log("Listening to Port 3001");
+});

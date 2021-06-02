@@ -1,7 +1,7 @@
 import React, { FC, useState } from "react";
 import Header from "../styled-components/header";
 import Sidebar from "../styled-components/Sidebar";
-import { NavbarList } from "../data/NavbarList";
+import { NavbarList } from "../../routes/NavbarRoutes";
 
 const Navbar: FC = () => {
   const [toggle, setToggle] = useState(true);

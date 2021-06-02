@@ -7,7 +7,7 @@ const InputField = styled.input`
   height: 45px;
 
   padding: 1rem;
-  border: 2px solid red;
+  border: 1px solid black;
 
   @media (max-width: 1024px) {
     width: 600px;
@@ -19,6 +19,12 @@ const InputField = styled.input`
 
   @media (max-width: 480px) {
     width: 300px;
+  }
+
+  &:focus {
+    outline: none;
+    border: none;
+    box-shadow: 0 0 0 3px hsla(220, 100%, 50%, 80%);
   }
 `;
 
@@ -70,13 +76,14 @@ const FormWrapper = styled.div`
 interface Props {
   inputValue: string;
   setInputValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  predictApi: () => void;
 }
 
-const InputForm = ({ inputValue, setInputValue }: Props) => {
+const InputForm = ({ inputValue, setInputValue, predictApi }: Props) => {
   return (
     <FormWrapper>
       <InputField onChange={(e) => setInputValue(e)} value={inputValue} />
-      <InputButton>Submit</InputButton>
+      <InputButton onClick={predictApi}>Submit</InputButton>
     </FormWrapper>
   );
 };
