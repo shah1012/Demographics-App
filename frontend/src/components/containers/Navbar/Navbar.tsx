@@ -1,10 +1,11 @@
 import React, { FC, useState } from "react";
-import Header from "../styled-components/header";
-import Sidebar from "../styled-components/Sidebar";
-import { NavbarList } from "../../routes/NavbarRoutes";
+import Header from "../../styled-components/Header/header";
+import Sidebar from "../../styled-components/Sidebar/Sidebar";
+import { NavbarList } from "../../../routes/NavbarRoutes";
+import { useNavbar } from "../../../contexts/NavbarContext";
 
 const Navbar: FC = () => {
-  const [toggle, setToggle] = useState(true);
+  const { toggle, setToggle } = useNavbar();
 
   const updateToggle = () => {
     setToggle(!toggle);

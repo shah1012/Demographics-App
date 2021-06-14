@@ -90,7 +90,7 @@ const Header = ({ updateToggle }: Props) => {
         <BurgerLines />
         <BurgerLines />
       </BurgerDiv>
-      <HeaderTitle>Demographics App</HeaderTitle>
+      <HeaderTitle>Logo detector App</HeaderTitle>
       <AvatarIcon />
     </HeaderDiv>
   );

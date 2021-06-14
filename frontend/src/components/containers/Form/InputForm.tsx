@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FormEvent } from "react";
 import styled from "styled-components";
 
 const InputField = styled.input`
@@ -64,7 +64,7 @@ const InputButton = styled.button`
   }
 `;
 
-const FormWrapper = styled.div`
+const FormWrapper = styled.form`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -76,14 +76,17 @@ const FormWrapper = styled.div`
 interface Props {
   inputValue: string;
   setInputValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  predictApi: () => void;
 }
 
-const InputForm = ({ inputValue, setInputValue, predictApi }: Props) => {
+const handleSubmit = (e: FormEvent) => {
+  e.preventDefault();
+};
+
+const InputForm = ({ inputValue, setInputValue }: Props) => {
   return (
-    <FormWrapper>
+    <FormWrapper onSubmit={handleSubmit}>
       <InputField onChange={(e) => setInputValue(e)} value={inputValue} />
-      <InputButton onClick={predictApi}>Submit</InputButton>
+      <InputButton>Submit</InputButton>
     </FormWrapper>
   );
 };
