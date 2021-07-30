@@ -3,8 +3,8 @@ import styled from "styled-components";
 
 const HeaderDiv = styled.div`
   width: 100%;
-  height: 90px;
-  background-color: black;
+  height: 10vh;
+  background-color: var(--primaryColor);
 
   display: flex;
   justify-content: center;
@@ -16,9 +16,9 @@ const HeaderDiv = styled.div`
 `;
 
 const HeaderTitle = styled.h1`
-  font-size: 2.5rem;
+  font-size: 36px;
   font-weight: bold;
-  color: white;
+  color: var(--whiteColor);
   line-height: 1;
 
   @media (max-width: 1024px) {
@@ -69,11 +69,26 @@ const BurgerDiv = styled.div`
   left: 10px;
 `;
 const BurgerLines = styled.div`
-  width: 30px;
-  height: 4px;
-  margin: 5px;
+  width: 50px;
+  height: 5px;
+  margin: 10px;
 
-  background-color: white;
+  @media (max-width: 1024px) {
+    width: 45px;
+    height: 4px;
+  }
+
+  @media (max-width: 768px) {
+    width: 35px;
+    height: 3px;
+  }
+
+  @media (max-width: 480px) {
+    width: 20px;
+    height: 3px;
+  }
+
+  background-color: var(--whiteColor);
 `;
 
 // state
@@ -90,7 +105,7 @@ const Header = ({ updateToggle }: Props) => {
         <BurgerLines />
         <BurgerLines />
       </BurgerDiv>
-      <HeaderTitle>Logo detector App</HeaderTitle>
+      <HeaderTitle>Logo Detector App</HeaderTitle>
       <AvatarIcon />
     </HeaderDiv>
   );

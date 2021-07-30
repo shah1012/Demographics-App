@@ -5,7 +5,7 @@ import { NavbarList } from "../../../routes/NavbarRoutes";
 import { useNavbar } from "../../../contexts/NavbarContext";
 
 const Navbar: FC = () => {
-  const { toggle, setToggle } = useNavbar();
+  const [toggle, setToggle] = useState(true);
 
   const updateToggle = () => {
     setToggle(!toggle);

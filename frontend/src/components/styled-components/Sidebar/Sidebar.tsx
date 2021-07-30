@@ -23,7 +23,7 @@ const SidebarContainer = styled.div`
   width: 30%;
   height: 92vh;
 
-  background-color: black;
+  background-color: var(--primaryColor);
 
   display: flex;
   justify-content: center;
@@ -64,7 +64,19 @@ const SidebarLink = styled.li`
   font-size: 2.5rem;
   font-weight: 400;
   line-height: 1;
-  color: white;
+  color: var(--whiteColor);
+
+  @media (max-width: 1024px) {
+    font-size: 2rem;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 1.75rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.5rem;
+  }
 `;
 
 const Sidebar = ({ toggle, list }: Props) => {

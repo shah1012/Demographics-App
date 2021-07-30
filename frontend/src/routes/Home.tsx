@@ -1,10 +1,7 @@
 import React, { useState } from "react";
-import Clarifai from "clarifai";
 import InputForm from "../components/containers/Form/InputForm";
 import Navbar from "../components/containers/Navbar/Navbar";
-import Spinner from "../components/styled-components/Spinner/Spinner";
-
-interface Props {}
+import { BackgroundWrapper } from "../components/styled-components/Background/Background";
 
 const Home = () => {
   const [inputValue, setInputValue] = useState("");
@@ -14,10 +11,10 @@ const Home = () => {
   };
 
   return (
-    <div>
+    <BackgroundWrapper>
       <Navbar />
       <InputForm inputValue={inputValue} setInputValue={changeInputValue} />
-    </div>
+    </BackgroundWrapper>
   );
 };
 
