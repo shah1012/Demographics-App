@@ -3,6 +3,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { ImageUrl } from "../../../misc/backendUrls";
 import ImageContainer from "../ImageContainer/Container";
+import { BoxType } from "../../../types/BoxType"
 
 const InputField = styled.input`
   font-size: 28px;
@@ -98,12 +99,6 @@ interface Props {
   inputValue: string;
   setInputValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
-type BoxType = {
-  top: number;
-  right: number;
-  bottom: number;
-  left: number;
-};
 
 const calculateBox = (data: any) => {
   const image = document.querySelector<HTMLImageElement>(".logoImg");

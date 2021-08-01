@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { BoxType } from "../../../types/BoxType";
 
 const BoundingBoxDiv = styled.div`
   position: absolute;
@@ -26,17 +27,10 @@ const ImageWrapper = styled.div`
 const Image = styled.img`
   width: 500px;
   height: auto;
-  max-height: 500px;
+  max-height: 400px;
   object-fit: contain;
   background-size: contain;
 `;
-
-type BoxType = {
-  top: number;
-  right: number;
-  bottom: number;
-  left: number;
-};
 
 interface Props {
   url: string;
@@ -48,7 +42,27 @@ const Container = ({ url, box }: Props) => {
     <ImageContainer className="imageContainer">
       <ImageWrapper>
         <Image src={url} width="500px" height="auto" className="logoImg" />
-        {console.log(typeof box, box)}
+        {Array.isArray(box) ? (
+          box.map((b: BoxType) => (
+            <BoundingBoxDiv
+              style={{
+                top: b.top,
+                right: b.right,
+                bottom: b.bottom,
+                left: b.left,
+              }}
+            />
+          ))
+        ) : (
+          <BoundingBoxDiv
+            style={{
+              top: box.top,
+              right: box.right,
+              bottom: box.bottom,
+              left: box.left,
+            }}
+          />
+        )}
       </ImageWrapper>
     </ImageContainer>
   );

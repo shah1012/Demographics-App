@@ -1,9 +1,5 @@
 import { createContext, SetStateAction, useContext, Dispatch } from "react";
-
-export type NavbarContextType = {
-  toggle: boolean;
-  setToggle: Dispatch<SetStateAction<boolean>>;
-};
+import { NavbarContextType } from "../types/NavbarContextType";
 
 export const NavbarContext = createContext<NavbarContextType>({
   toggle: true,
