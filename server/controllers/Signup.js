@@ -1,36 +1,38 @@
 const express = require("express");
-const userSchema = require("../models/UserSchema");
+const { mongooseModel, joiUserSchema } = require("../models/UserSchema");
 const bcrypt = require("bcrypt");
 
 // router
 const route = express.Router();
 
 route.post("/", async (req, res) => {
-  const { name, email, password } = req.body;
+  try {
+    const { error } = joiUserSchema.validate(req.body);
+    const errors = [];
 
-  if (name && email && password) {
-    try {
-      const hashedPassword = await bcrypt.hash(password, 10);
-      const user = new userSchema({
-        name,
-        email,
-        password: hashedPassword,
-      });
-
-      const result = await user.save();
-      res.json(result);
-    } catch (err) {
-      console.log(err);
-
-      // error handling each scenario
-      if (err.keyPattern?.email) {
-        return res.status(400).send("User with that email already exits");
-      } else if (err.errors?.name?.message) {
-        return res.status(400).send(err.errors.name.message);
-      }
+    if (error?.details) {
+      error.details.forEach((message) => errors.push(message.message));
+      res.status(400).send(errors);
+      return;
     }
-  } else {
-    res.status(400).json("Please provide the required fields");
+
+    const { name, email, password } = req.body;
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = new mongooseModel({
+      name,
+      email,
+      password: hashedPassword,
+    });
+
+    const result = await user.save();
+    res.json(result);
+  } catch (err) {
+    if (err?.keyPattern?.email) {
+      return res.status(400).json("Email already exists");
+    }
+    console.log(err);
+    res.status(502).send("couldn't make the user");
   }
 });
 

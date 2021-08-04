@@ -1,8 +1,24 @@
 const cors = require("cors");
 const express = require("express");
+const mongoose = require("mongoose");
 const app = express();
 
 const { Image, Login, Signup } = require("./controllers/index");
+
+// mongodb
+mongoose
+  .connect("mongodb://localhost/LogoDetector", {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: true,
+  })
+  .then(() => {
+    console.log("Connected to mongodb...");
+  })
+  .catch((err) => {
+    "Couldn't connect to mongodb", err;
+  });
 
 //parsers
 app.use(express.json());
@@ -14,8 +30,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/image", Image);
-app.use("/login", Login);
-app.use("/register", Signup);
+app.use("/api/login", Login);
+app.use("/api/signup", Signup);
 
 // listen
 app.listen(3001, () => {

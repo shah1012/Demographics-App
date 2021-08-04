@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const joi = require("joi");
 
 const userSchema = mongoose.Schema({
   name: {
@@ -25,4 +26,22 @@ const userSchema = mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Users", userSchema);
+const joiUserSchema = joi.object({
+  name: joi.string().required().min(3),
+  email: joi
+    .string()
+    .email({ minDomainSegments: 1, tlds: { allow: ["com", "net"] } }),
+  password: joi
+    .string()
+    .required()
+    .min(5)
+    .regex(/.*[A-Z].*/),
+  isAdmin: joi.boolean(),
+});
+
+const mongooseModel = mongoose.model("Users", userSchema);
+
+module.exports = {
+  mongooseModel,
+  joiUserSchema,
+};

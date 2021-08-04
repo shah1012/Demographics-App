@@ -1,11 +1,13 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 // router
 const route = express.Router();
 
 // schemas
-const UserSchema = require("../models/UserSchema");
+const { mongooseModel } = require("../models/UserSchema");
 
 // request
 route.post("/", (req, res) => {
@@ -13,8 +15,8 @@ route.post("/", (req, res) => {
   const userPassword = req.body.password;
 
   try {
-    if (userEmail) {
-      UserSchema.findOne(
+    if (userEmail && userPassword) {
+      mongooseModel.findOne(
         {
           email: userEmail,
         },
@@ -27,7 +29,22 @@ route.post("/", (req, res) => {
             const isValid = bcrypt.compareSync(userPassword, data.password);
 
             if (isValid) {
-              res.json(data);
+              if (!process.env["JWT_SIGN"])
+                return res.status(400).send("Unable to make token");
+
+              const payload = {
+                username: data.username,
+                email: data.email,
+                id: data._id,
+              };
+
+              // making the token
+
+              const token = jwt.sign(payload, process.env["JWT_SIGN"], {
+                expiresIn: "1h",
+              });
+
+              res.json({ token });
             } else {
               res.status(400).json("Wrong Credentials");
             }
