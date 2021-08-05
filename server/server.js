@@ -3,7 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
 
-const { Image, Login, Signup } = require("./controllers/index");
+const { Image, Login, Signup, Validate } = require("./controllers/index");
 
 // mongodb
 mongoose
@@ -32,6 +32,7 @@ app.get("/", (req, res) => {
 app.use("/api/image", Image);
 app.use("/api/login", Login);
 app.use("/api/signup", Signup);
+app.use("/api/validate", Validate);
 
 // listen
 app.listen(3001, () => {
