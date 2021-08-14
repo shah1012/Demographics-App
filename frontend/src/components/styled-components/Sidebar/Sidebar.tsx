@@ -16,6 +16,8 @@ const SidebarContainer = styled.div`
   position: absolute;
   top: 8vh;
 
+  z-index: 2;
+
   width: 30%;
   height: 92vh;
 
@@ -61,6 +63,8 @@ const SidebarLink = styled.li`
   font-weight: 400;
   line-height: 1;
   color: var(--whiteColor);
+
+  cursor: pointer;
 
   @media (max-width: 1024px) {
     font-size: 2rem;
