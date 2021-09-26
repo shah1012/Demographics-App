@@ -26,7 +26,12 @@ route.post("/", async (req, res) => {
     });
 
     const result = await user.save();
-    res.json(result);
+    res.json({
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      id: user._id,
+    });
   } catch (err) {
     if (err?.keyPattern?.email) {
       return res.status(400).json("Email already exists");

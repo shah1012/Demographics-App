@@ -1,11 +1,12 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-export default (req, res, next) => {
+module.exports = (req, res, next) => {
   const jwtSign = process.env["JWT_SIGN"];
 
   const token = req.headers["jwt_token"];
-  if (!token) return console.log("no token", req.headers);
+
+  if (!token) return res.status(404).send("No token found");
 
   if (!jwtSign) return res.status(404).send("No sign");
 
@@ -17,6 +18,6 @@ export default (req, res, next) => {
     req.body["jwt_payload"] = payload;
     next();
   } catch (err) {
-    console.log(err);
+    res.status(400).send("Invalid token");
   }
 };

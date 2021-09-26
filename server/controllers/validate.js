@@ -14,12 +14,12 @@ route.get("/", auth, (req, res) => {
   const newJwtPayload = {
     username: payload.username,
     email: payload.email,
-    id: payload._id,
+    id: payload.id,
   };
 
   const token = jwt.sign(newJwtPayload, jwtSign, { expiresIn: "1h" });
 
-  res.send(token);
+  res.send({ token });
 });
 
 module.exports = route;

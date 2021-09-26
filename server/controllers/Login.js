@@ -33,12 +33,14 @@ route.post("/", (req, res) => {
                 return res.status(400).send("Unable to make token");
 
               const payload = {
-                username: data.username,
+                username: data.name,
                 email: data.email,
                 id: data._id,
               };
 
               // making the token
+
+              console.log(payload);
 
               const token = jwt.sign(payload, process.env["JWT_SIGN"], {
                 expiresIn: "1h",
@@ -58,6 +60,7 @@ route.post("/", (req, res) => {
     }
   } catch (err) {
     console.log(err);
+    res.status(400).send("Error");
   }
 });
 
