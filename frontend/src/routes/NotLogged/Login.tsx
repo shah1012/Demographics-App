@@ -8,14 +8,16 @@ import {
   FormButton,
   NewToThisLink,
   LinkToTHisPage,
-} from "../components/containers/LoginPage/Login";
-import { BackgroundWrapper } from "../components/styled-components/Background/Background";
-import { LoginUrl } from "../misc/backendUrls";
+} from "../../components/containers/LoginPage/Login";
+import { ParticleBackground } from "../../components/styled-components/Background/Background";
+import { LoginUrl } from "../../misc/backendUrls";
 import axios from "axios";
+import { useHistory } from "react-router";
 
 const Login = () => {
   const [emailValue, setEmailValue] = useState<string>();
   const [passwordValue, setPasswordValue] = useState<string>("");
+  const history = useHistory();
 
   const onFormSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -25,14 +27,18 @@ const Login = () => {
         email: emailValue,
         password: passwordValue,
       })
-      .then((data) => console.log(data));
+      .then((data) => {
+        let { token } = data.data;
+        localStorage.setItem("JWT-TOKEN", token);
+        history.push("/");
+      });
 
     setEmailValue("");
     setPasswordValue("");
   };
 
   return (
-    <BackgroundWrapper>
+    <ParticleBackground>
       <LoginWrapper>
         <LoginH1>XYZ</LoginH1>
         <LoginForm>
@@ -40,7 +46,7 @@ const Login = () => {
           <FormInput
             onChange={(e) => setEmailValue(e.target.value)}
             value={emailValue}
-            type="text"
+            type="email"
             className="formInput"
           />
           <FormLabel className="formLabel">Password: </FormLabel>
@@ -60,11 +66,13 @@ const Login = () => {
 
           <NewToThisLink>
             New to this site?{" "}
-            <LinkToTHisPage href="/signup">Sign up</LinkToTHisPage>{" "}
+            <LinkToTHisPage onClick={() => history.push("/signup")}>
+              Sign up
+            </LinkToTHisPage>{" "}
           </NewToThisLink>
         </LoginForm>
       </LoginWrapper>
-    </BackgroundWrapper>
+    </ParticleBackground>
   );
 };
 

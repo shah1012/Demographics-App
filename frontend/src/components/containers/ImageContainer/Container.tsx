@@ -34,35 +34,13 @@ const Image = styled.img`
 
 interface Props {
   url: string;
-  box: BoxType | BoxType[];
 }
 
-const Container = ({ url, box }: Props) => {
+const Container = ({ url }: Props) => {
   return (
     <ImageContainer className="imageContainer">
       <ImageWrapper>
         <Image src={url} width="500px" height="auto" className="logoImg" />
-        {Array.isArray(box) ? (
-          box.map((b: BoxType) => (
-            <BoundingBoxDiv
-              style={{
-                top: b.top,
-                right: b.right,
-                bottom: b.bottom,
-                left: b.left,
-              }}
-            />
-          ))
-        ) : (
-          <BoundingBoxDiv
-            style={{
-              top: box.top,
-              right: box.right,
-              bottom: box.bottom,
-              left: box.left,
-            }}
-          />
-        )}
       </ImageWrapper>
     </ImageContainer>
   );

@@ -1,9 +1,15 @@
-import React, { Dispatch, FormEvent, SetStateAction, useState } from "react";
+import React, {
+  Dispatch,
+  FormEvent,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { ImageUrl } from "../../../misc/backendUrls";
 import ImageContainer from "../ImageContainer/Container";
-import { BoxType } from "../../../types/BoxType"
+import { NameType } from "../../../types/NameType";
 
 const InputField = styled.input`
   font-size: 28px;
@@ -26,10 +32,12 @@ const InputField = styled.input`
 
   @media (max-width: 768px) {
     width: 500px;
+    margin-right: 1rem;
   }
 
   @media (max-width: 480px) {
     width: 300px;
+    margin-right: 0.5rem;
   }
 
   &:focus {
@@ -100,64 +108,39 @@ interface Props {
   setInputValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const calculateBox = (data: any) => {
-  const image = document.querySelector<HTMLImageElement>(".logoImg");
-  const width = Number(image!.width);
-  const height = Number(image!.height);
-
-  const ch = data.bottom_row * height;
-  const cw = data.right_col * width;
-
-  return {
-    top: data.top_row * height,
-    right: width - cw,
-    bottom: height - ch,
-    left: data.left_col * width,
-  };
-};
-
-const handleSubmit = (
-  e: FormEvent,
-  inputValue: string,
-  setImageUrl: Dispatch<SetStateAction<string>>,
-  setBox: Dispatch<SetStateAction<BoxType | BoxType[]>>
-) => {
-  e.preventDefault();
-
-  setImageUrl(inputValue);
-
-  axios
-    .post(ImageUrl, {
-      url: inputValue,
-    })
-    .then((data) => {
-      console.log(data.data.data);
-
-      if (data.data.data.regions.length > 1) {
-        let calculatedBoxes: BoxType[] = [];
-        data.data.data.regions.forEach((region: any) => {
-          calculatedBoxes.push(calculateBox(region.region_info.bounding_box));
-        });
-
-        setBox(calculatedBoxes);
-      } else {
-        const boundingBoxInfo =
-          data.data.data.regions[0].region_info.bounding_box;
-        setBox(calculateBox(boundingBoxInfo));
-      }
-    });
-};
-
 const InputForm = ({ inputValue, setInputValue }: Props) => {
   const [imageUrl, setImageUrl] = useState("");
-  const [box, setBox] = useState<BoxType | BoxType[]>({} as BoxType);
+  const [predictions, setPredictions] = useState<NameType[]>([]);
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+
+    setImageUrl(inputValue);
+
+    axios
+      .post(ImageUrl, {
+        url: inputValue,
+      })
+      .then((data) => {
+        let temp: NameType[] = [];
+        data.data.forEach((d: NameType) => {
+          let val = Math.round(100 * d.probability) / 100;
+          let t = { className: d.className, probability: val };
+          temp.push(t);
+        });
+
+        setPredictions(temp);
+      });
+  };
+
+  useEffect(() => {
+    console.log(predictions);
+  }, [predictions]);
 
   return (
     <FormContanier>
-      <ImageContainer url={imageUrl} box={box} />
-      <FormWrapper
-        onSubmit={(e) => handleSubmit(e, inputValue, setImageUrl, setBox)}
-      >
+      <ImageContainer url={imageUrl} />
+      <FormWrapper onSubmit={(e) => handleSubmit(e)}>
         <InputField onChange={(e) => setInputValue(e)} value={inputValue} />
         <InputButton>Submit</InputButton>
       </FormWrapper>
