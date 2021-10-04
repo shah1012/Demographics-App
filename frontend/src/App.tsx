@@ -1,43 +1,23 @@
 import React, { useEffect, useState } from "react";
 import "./css/App.css";
 
-import Spinner from "./components/styled-components/Spinner/Spinner";
-import axios from "axios";
-import { accountUrl, validateUrl } from "./misc/backendUrls";
-import Logged from "./routes/Logged";
-import NotLogged from "./routes/NotLogged";
+import { Route, Switch, useHistory } from "react-router-dom";
+import Login from "./routes/Login";
+import ProtectedRoute from "./routes/ProtectedRoute";
+import Home from "./routes/Home";
+import Signup from "./routes/Signup";
+
+import { useDispatch, useSelector } from "react-redux";
+import { login, selectUser } from "./redux/reducer/UserReducer";
+import validateToken from "./misc/validateFunction";
+import About from "./routes/About";
+import Account from "./routes/Account";
 
 function App() {
-  const [toggle, setToggle] = useState(true);
-  const [valid, setValid] = useState(false);
-
-  const validateToken = async (token: string) => {
-    try {
-      const { data } = await axios.get(validateUrl, {
-        headers: {
-          jwt_token: token,
-        },
-      });
-
-      localStorage.setItem("JWT-TOKEN", data.token);
-      const res = await axios.get(accountUrl, {
-        headers: {
-          jwt_token: token,
-        },
-      });
-
-      const { email, username, id } = res.data;
-      const newPayload = {
-        id,
-        email,
-        username,
-      };
-
-      return [data.token, newPayload];
-    } catch (err) {
-      console.dir(err);
-    }
-  };
+  const user = useSelector(selectUser);
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const [toggle, setToggle] = useState<boolean>(true);
 
   useEffect(() => {
     const token = localStorage.getItem("JWT-TOKEN");
@@ -45,16 +25,34 @@ function App() {
       validateToken(token)
         .then((data) => {
           if (data) {
-            setValid(true);
+            let userInfo = data[1];
+            dispatch(
+              login({
+                id: userInfo.id,
+                username: userInfo.username,
+                email: userInfo.email,
+              })
+            );
+            history.push("/home");
+          } else {
+            history.push("/login");
           }
         })
         .catch((err) => console.dir(err));
+    } else {
+      history.push("/login");
     }
   }, []);
 
   return (
     <div className="App">
-      <>{valid ? <Logged /> : <NotLogged />}</>
+      <Switch>
+        <Route path="/login" component={() => <Login />} />
+        <Route path="/signup" component={Signup} />
+        <ProtectedRoute user={user} path="/home" component={Home} />
+        <ProtectedRoute user={user} path="/about" component={About} />
+        <ProtectedRoute user={user} path="/account" component={Account} />
+      </Switch>
     </div>
   );
 }

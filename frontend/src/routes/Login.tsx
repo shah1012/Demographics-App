@@ -8,17 +8,20 @@ import {
   FormButton,
   NewToThisLink,
   LinkToTHisPage,
-} from "../../components/containers/LoginPage/Login";
-import { ParticleBackground } from "../../components/styled-components/Background/Background";
-import { LoginUrl } from "../../misc/backendUrls";
+} from "../components/containers/LoginPage/Login";
+import { ParticleBackground } from "../components/styled-components/Background/Background";
+import { LoginUrl } from "../misc/backendUrls";
 import axios from "axios";
-import { useHistory } from "react-router";
+import { Link, useHistory } from "react-router-dom";
+
+interface Props {
+  setIsAuth: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
 const Login = () => {
   const [emailValue, setEmailValue] = useState<string>();
   const [passwordValue, setPasswordValue] = useState<string>("");
   const history = useHistory();
-
   const onFormSubmit = (e: FormEvent) => {
     e.preventDefault();
 
@@ -30,7 +33,7 @@ const Login = () => {
       .then((data) => {
         let { token } = data.data;
         localStorage.setItem("JWT-TOKEN", token);
-        history.push("/");
+        history.push("/home");
       });
 
     setEmailValue("");
@@ -66,8 +69,8 @@ const Login = () => {
 
           <NewToThisLink>
             New to this site?{" "}
-            <LinkToTHisPage onClick={() => history.push("/signup")}>
-              Sign up
+            <LinkToTHisPage>
+              <Link to="/signup">Sign up</Link>
             </LinkToTHisPage>{" "}
           </NewToThisLink>
         </LoginForm>

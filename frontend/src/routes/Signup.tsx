@@ -1,8 +1,8 @@
 import React, { FormEvent, useState } from "react";
 import axios from "axios";
 
-import { ParticleBackground } from "../../components/styled-components/Background/Background";
-import { SignupUrl } from "../../misc/backendUrls";
+import { ParticleBackground } from "../components/styled-components/Background/Background";
+import { SignupUrl } from "../misc/backendUrls";
 import {
   FormButton,
   FormInput,
@@ -13,9 +13,9 @@ import {
   SignupH1,
   SignupWrapper,
   Eye,
-} from "../../components/containers/SignUpPage/Signup";
+} from "../components/containers/SignUpPage/Signup";
 
-import ClosedEyeSvg from "../../Icons/closedEye.svg";
+import ClosedEyeSvg from "../Icons/closedEye.svg";
 
 const Signup = () => {
   const [username, setUsername] = useState<string>("");

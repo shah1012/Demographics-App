@@ -1,7 +1,7 @@
 export const NavbarList = [
   {
     name: "Home",
-    path: "/",
+    path: "/home",
   },
   {
     name: "About",
