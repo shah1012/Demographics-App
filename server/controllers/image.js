@@ -42,16 +42,20 @@ const identifyImage = (url) => {
 route.post("/", async (req, res) => {
   const { url } = req.body;
 
-  identifyImage(url)
-    .then((imageClassification) => {
-      res.json(imageClassification);
-    })
-    .catch((err) => {
-      console.log(err);
-      res
-        .status(500)
-        .send("Something went wrong while fetching image from URL.");
-    });
+  if (url != "") {
+    identifyImage(url)
+      .then((imageClassification) => {
+        res.json(imageClassification);
+      })
+      .catch((err) => {
+        console.log(err);
+        res
+          .status(500)
+          .send("Something went wrong while fetching image from URL.");
+      });
+  } else {
+    res.status(404).send("Empty url");
+  }
 });
 
 module.exports = route;
