@@ -7,20 +7,26 @@ import {
   FormButton,
   FormInput,
   FormLabel,
-  LinkToTHisPage,
   NewToThisLink,
   SignupForm,
   SignupH1,
   SignupWrapper,
   Eye,
 } from "../components/containers/SignUpPage/Signup";
+import { LinkToTHisPage } from "../components/styled-components/Link/LinkComponent";
+
+import { useDispatch } from "react-redux";
+import { signUp } from "../redux/reducer/UserReducer";
 
 import ClosedEyeSvg from "../Icons/closedEye.svg";
+import { useHistory } from "react-router-dom";
 
 const Signup = () => {
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const dispatch = useDispatch();
+  const history = useHistory();
 
   const onFormSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -31,7 +37,13 @@ const Signup = () => {
         email: email,
         password: password,
       })
-      .then((data) => console.log(data))
+      .then((data) => {
+        if (data) {
+          let userInfo = data.data;
+          history.push("/home");
+          dispatch(signUp(userInfo));
+        }
+      })
       .catch((err) =>
         typeof err.response.data === "string"
           ? alert(err.response.data)
@@ -69,8 +81,7 @@ const Signup = () => {
           <FormButton onClick={onFormSubmit}>Sign up</FormButton>
 
           <NewToThisLink>
-            Already have an account?{" "}
-            <LinkToTHisPage href="/login">Login</LinkToTHisPage>
+            Already have an account? {LinkToTHisPage("/login", "Login")}
           </NewToThisLink>
         </SignupForm>
       </SignupWrapper>

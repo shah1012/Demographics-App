@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from "react";
+import { Route, Switch, useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import "./css/App.css";
 
-import { Route, Switch, useHistory } from "react-router-dom";
-import Login from "./routes/Login";
-import ProtectedRoute from "./routes/ProtectedRoute";
-import Home from "./routes/Home";
-import Signup from "./routes/Signup";
-
-import { useDispatch, useSelector } from "react-redux";
+import { Home, About, Account, Login, Signup, ProtectedRoute } from "./routes";
 import { login, selectUser } from "./redux/reducer/UserReducer";
 import validateToken from "./misc/validateFunction";
-import About from "./routes/About";
-import Account from "./routes/Account";
+
+import { SpinnerContext } from "./contexts/SpinnerContext";
+import { PredictionContext } from "./contexts/PredictionContext";
+import { NameType } from "./types/NameType";
 
 function App() {
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
   const history = useHistory();
-  const [toggle, setToggle] = useState<boolean>(true);
+  const [loaded, setLoaded] = useState<boolean>(false);
+  const [predictions, setPredictions] = useState<NameType[]>([]);
 
   useEffect(() => {
     const token = localStorage.getItem("JWT-TOKEN");
@@ -46,13 +45,17 @@ function App() {
 
   return (
     <div className="App">
-      <Switch>
-        <Route path="/login" component={() => <Login />} />
-        <Route path="/signup" component={Signup} />
-        <ProtectedRoute user={user} path="/home" component={Home} />
-        <ProtectedRoute user={user} path="/about" component={About} />
-        <ProtectedRoute user={user} path="/account" component={Account} />
-      </Switch>
+      <SpinnerContext.Provider value={{ loaded, setLoaded }}>
+        <PredictionContext.Provider value={{ predictions, setPredictions }}>
+          <Switch>
+            <Route path="/login" component={() => <Login />} />
+            <Route path="/signup" component={Signup} />
+            <ProtectedRoute user={user} path="/home" component={Home} />
+            <ProtectedRoute user={user} path="/about" component={About} />
+            <ProtectedRoute user={user} path="/account" component={Account} />
+          </Switch>
+        </PredictionContext.Provider>
+      </SpinnerContext.Provider>
     </div>
   );
 }

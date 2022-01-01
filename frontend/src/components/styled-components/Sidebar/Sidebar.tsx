@@ -63,8 +63,13 @@ const SidebarLink = styled.li`
   font-weight: 400;
   line-height: 1;
   color: var(--whiteColor);
+  padding-bottom: 5px;
 
   cursor: pointer;
+
+  background: linear-gradient(currentColor 0 0) 0 100% / var(--d, 0) 3px
+    no-repeat;
+  transition: 0.25s;
 
   @media (max-width: 1024px) {
     font-size: 2rem;
@@ -76,6 +81,10 @@ const SidebarLink = styled.li`
 
   @media (max-width: 480px) {
     font-size: 1.5rem;
+  }
+
+  &:hover {
+    --d: 100%;
   }
 `;
 

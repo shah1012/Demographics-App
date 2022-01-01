@@ -102,14 +102,3 @@ export const NewToThisLink = styled.p`
   margin-top: 15px;
   margin-left: 0;
 `;
-
-export const LinkToTHisPage = styled.a`
-  font-size: 1.25rem;
-  font-weight: 200;
-  text-decoration: none;
-  color: #cae4f1;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`;

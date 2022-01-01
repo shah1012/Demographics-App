@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { logout } from "../../../redux/reducer/UserReducer";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
 
 const HeaderDiv = styled.div`
   width: 100%;
@@ -40,6 +43,8 @@ const AvatarIcon = styled.img`
   height: 50px;
 
   background-color: white;
+
+  cursor: pointer;
 
   position: absolute;
   right: 10px;
@@ -91,6 +96,38 @@ const BurgerLines = styled.div`
   background-color: var(--whiteColor);
 `;
 
+const LogoutLink = styled.a`
+  font-size: 1.75rem;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--whiteColor);
+  text-decoration: none;
+  position: absolute;
+  right: 5%;
+  padding-bottom: 3px;
+
+  cursor: pointer;
+
+  background: linear-gradient(currentColor 0 0) 0 100% / var(--d, 0) 3px
+    no-repeat;
+  transition: 0.25s;
+
+  @media (max-width: 1024px) {
+    font-size: 2rem;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 1.75rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.5rem;
+  }
+
+  &:hover {
+    --d: 100%;
+  }
+`;
 // state
 
 interface Props {
@@ -98,6 +135,15 @@ interface Props {
 }
 
 const Header = ({ updateToggle }: Props) => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  const onLogout = () => {
+    localStorage.removeItem("JWT-TOKEN");
+    dispatch(logout());
+    history.push("/login");
+  };
+
   return (
     <HeaderDiv>
       <BurgerDiv onClick={updateToggle}>
@@ -106,7 +152,7 @@ const Header = ({ updateToggle }: Props) => {
         <BurgerLines />
       </BurgerDiv>
       <HeaderTitle>Logo Detector App</HeaderTitle>
-      <AvatarIcon />
+      <LogoutLink onClick={onLogout}>Log Out</LogoutLink>
     </HeaderDiv>
   );
 };

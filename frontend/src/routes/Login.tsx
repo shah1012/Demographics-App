@@ -7,21 +7,22 @@ import {
   FormInput,
   FormButton,
   NewToThisLink,
-  LinkToTHisPage,
 } from "../components/containers/LoginPage/Login";
 import { ParticleBackground } from "../components/styled-components/Background/Background";
+import { LinkToTHisPage } from "../components/styled-components/Link/LinkComponent";
 import { LoginUrl } from "../misc/backendUrls";
 import axios from "axios";
-import { Link, useHistory } from "react-router-dom";
-
-interface Props {
-  setIsAuth: React.Dispatch<React.SetStateAction<boolean>>;
-}
+import { useHistory } from "react-router-dom";
+import validateToken from "../misc/validateFunction";
+import { useDispatch } from "react-redux";
+import { login } from "../redux/reducer/UserReducer";
 
 const Login = () => {
   const [emailValue, setEmailValue] = useState<string>();
   const [passwordValue, setPasswordValue] = useState<string>("");
   const history = useHistory();
+  const dispatch = useDispatch();
+
   const onFormSubmit = (e: FormEvent) => {
     e.preventDefault();
 
@@ -33,6 +34,22 @@ const Login = () => {
       .then((data) => {
         let { token } = data.data;
         localStorage.setItem("JWT-TOKEN", token);
+        validateToken(token)
+          .then((data) => {
+            if (data) {
+              let userInfo = data[1];
+              history.push("/home");
+              dispatch(
+                login({
+                  id: userInfo.id,
+                  username: userInfo.username,
+                  email: userInfo.email,
+                })
+              );
+            }
+          })
+          .catch((err) => console.dir(err));
+
         history.push("/home");
       });
 
@@ -68,10 +85,7 @@ const Login = () => {
           </FormButton>
 
           <NewToThisLink>
-            New to this site?{" "}
-            <LinkToTHisPage>
-              <Link to="/signup">Sign up</Link>
-            </LinkToTHisPage>{" "}
+            New to this site? {LinkToTHisPage("/signup", "Sign Up")}
           </NewToThisLink>
         </LoginForm>
       </LoginWrapper>

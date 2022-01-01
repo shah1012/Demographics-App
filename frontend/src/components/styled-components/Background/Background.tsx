@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import Particles from "react-particles-js";
 
 const ParticalesOptions = {
