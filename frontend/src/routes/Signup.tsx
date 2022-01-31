@@ -25,6 +25,7 @@ const Signup = () => {
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -72,11 +73,14 @@ const Signup = () => {
 
           <FormLabel>Password: </FormLabel>
           <FormInput
-            type="password"
+            type={showPassword ? "text" : "password"}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Eye src={ClosedEyeSvg} />
+          <Eye
+            src={ClosedEyeSvg}
+            onClick={(e) => setShowPassword(!showPassword)}
+          />
 
           <FormButton onClick={onFormSubmit}>Sign up</FormButton>
 

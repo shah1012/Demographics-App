@@ -108,5 +108,5 @@ export const Eye = styled.img`
   height: 35px;
   border-radius: 50%;
   cursor: pointer;
-  display: inline-block;
+  display: flex;
 `;
