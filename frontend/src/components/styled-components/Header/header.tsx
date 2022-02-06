@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { logout } from "../../../redux/reducer/UserReducer";
 import styled from "styled-components";
@@ -74,6 +74,8 @@ const BurgerDiv = styled.div`
   left: 10px;
 `;
 const BurgerLines = styled.div`
+  transition: all 0.35s ease-in;
+
   width: 50px;
   height: 5px;
   margin: 10px;
@@ -131,12 +133,13 @@ const LogoutLink = styled.a`
 // state
 
 interface Props {
-  updateToggle: () => void;
+  updateToggle: (BurgerRef: React.RefObject<HTMLDivElement>) => void;
 }
 
 const Header = ({ updateToggle }: Props) => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const BurgerRef = useRef<HTMLDivElement>(null);
 
   const onLogout = () => {
     localStorage.removeItem("JWT-TOKEN");
@@ -146,7 +149,7 @@ const Header = ({ updateToggle }: Props) => {
 
   return (
     <HeaderDiv>
-      <BurgerDiv onClick={updateToggle}>
+      <BurgerDiv ref={BurgerRef} onClick={() => updateToggle(BurgerRef)}>
         <BurgerLines />
         <BurgerLines />
         <BurgerLines />

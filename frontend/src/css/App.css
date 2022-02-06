@@ -13,3 +13,13 @@
   left: 0;
   z-index: -1;
 }
+
+.toggle-nav-1 {
+  transform: rotate(-45deg) translate(-8.5px, 9.5px);
+}
+.toggle-nav-2 {
+  opacity: 0;
+}
+.toggle-nav-3 {
+  transform: rotate(45deg) translate(-8.5px, -9.5px);
+}
