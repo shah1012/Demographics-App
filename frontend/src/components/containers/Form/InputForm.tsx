@@ -135,7 +135,11 @@ const InputForm = ({ inputValue, setInputValue }: Props) => {
     <FormContanier>
       <ImageContainer url={imageUrl} />
       <FormWrapper onSubmit={(e) => handleSubmit(e)}>
-        <InputField onChange={(e) => setInputValue(e)} value={inputValue} />
+        <InputField
+          placeholder={"Image url here"}
+          onChange={(e) => setInputValue(e)}
+          value={inputValue}
+        />
         <InputButton>Submit</InputButton>
       </FormWrapper>
     </FormContanier>

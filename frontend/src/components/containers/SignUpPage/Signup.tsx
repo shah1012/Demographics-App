@@ -103,10 +103,16 @@ export const NewToThisLink = styled.p`
   margin-left: 0;
 `;
 
+export const EyeWrapper = styled.div`
+  width: 100%;
+  position: relative;
+  display: flex;
+`;
+
 export const Eye = styled.img`
   width: 35px;
   height: 35px;
   border-radius: 50%;
   cursor: pointer;
-  display: flex;
+  margin: 0 10px;
 `;

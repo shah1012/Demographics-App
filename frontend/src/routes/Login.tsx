@@ -10,6 +10,7 @@ import {
 } from "../components/containers/LoginPage/Login";
 import { ParticleBackground } from "../components/styled-components/Background/Background";
 import { LinkToTHisPage } from "../components/styled-components/Link/LinkComponent";
+import ErrorMessage from "../components/styled-components/ErrorMessege/ErrorMessege";
 import { LoginUrl } from "../misc/backendUrls";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
@@ -20,8 +21,16 @@ import { login } from "../redux/reducer/UserReducer";
 const Login = () => {
   const [emailValue, setEmailValue] = useState<string>();
   const [passwordValue, setPasswordValue] = useState<string>("");
+  const [errMsg, setErrMsg] = useState<string>("");
   const history = useHistory();
   const dispatch = useDispatch();
+
+  const displayErrorMsg = (msg: string) => {
+    setErrMsg(msg);
+    setTimeout(() => {
+      setErrMsg("");
+    }, 3000);
+  };
 
   const onFormSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -48,9 +57,14 @@ const Login = () => {
               );
             }
           })
-          .catch((err) => console.dir(err));
+          .catch((err) => {
+            console.log(err);
+          });
 
         history.push("/home");
+      })
+      .catch((err) => {
+        displayErrorMsg(err.response.data);
       });
 
     setEmailValue("");
@@ -76,6 +90,7 @@ const Login = () => {
             type="password"
             className="formInput"
           />
+          <ErrorMessage msg={errMsg} />
           <FormButton
             className="formButton"
             onClick={onFormSubmit}

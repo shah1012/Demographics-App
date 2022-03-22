@@ -11,6 +11,7 @@ import {
   SignupForm,
   SignupH1,
   SignupWrapper,
+  EyeWrapper,
   Eye,
 } from "../components/containers/SignUpPage/Signup";
 import { LinkToTHisPage } from "../components/styled-components/Link/LinkComponent";
@@ -19,6 +20,7 @@ import { useDispatch } from "react-redux";
 import { signUp } from "../redux/reducer/UserReducer";
 
 import ClosedEyeSvg from "../Icons/closedEye.svg";
+import OpenEyeSvg from "../Icons/openEye.svg";
 import { useHistory } from "react-router-dom";
 
 const Signup = () => {
@@ -72,15 +74,17 @@ const Signup = () => {
           />
 
           <FormLabel>Password: </FormLabel>
-          <FormInput
-            type={showPassword ? "text" : "password"}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <Eye
-            src={ClosedEyeSvg}
-            onClick={(e) => setShowPassword(!showPassword)}
-          />
+          <EyeWrapper>
+            <FormInput
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <Eye
+              src={showPassword ? OpenEyeSvg : ClosedEyeSvg}
+              onClick={(e) => setShowPassword(!showPassword)}
+            />
+          </EyeWrapper>
 
           <FormButton onClick={onFormSubmit}>Sign up</FormButton>
 
