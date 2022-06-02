@@ -4,6 +4,11 @@ import axios from "axios";
 import { ImageUrl } from "../../../misc/backendUrls";
 import ImageContainer from "../ImageContainer/Container";
 import { NameType } from "../../../types/NameType";
+import DisplayPredictions from "../../styled-components/DisplayPredictions/DisplayPredictions";
+
+const sm = "480px";
+const md = "768px";
+const lg = "1024px";
 
 const InputField = styled.input`
   font-size: 28px;
@@ -134,6 +139,7 @@ const InputForm = ({ inputValue, setInputValue }: Props) => {
   return (
     <FormContanier>
       <ImageContainer url={imageUrl} />
+      <DisplayPredictions predictions={predictions} />
       <FormWrapper onSubmit={(e) => handleSubmit(e)}>
         <InputField
           placeholder={"Image url here"}

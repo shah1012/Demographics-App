@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 import { useDispatch } from "react-redux";
 import { logout } from "../../../redux/reducer/UserReducer";
 import styled from "styled-components";

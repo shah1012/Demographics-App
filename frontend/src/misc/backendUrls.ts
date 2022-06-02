@@ -1,5 +1,3 @@
-import React from "react";
-
 export const DefualtUrl = "http://localhost:3001/api/";
 export const ImageUrl = DefualtUrl + "image";
 export const LoginUrl = DefualtUrl + "login";

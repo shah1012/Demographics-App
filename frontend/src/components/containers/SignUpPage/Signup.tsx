@@ -18,32 +18,24 @@ export const SignupWrapper = styled.div`
 `;
 
 export const SignupForm = styled.form`
-  width: 35%;
+  width: clamp(50%, 300px, 600px);
   margin-top: 10vh;
-  box-shadow: 1px 4px 10px rgba(0, 0, 0, 0.25);
 
   border-radius: 10px;
   padding: 20px;
 
   background-color: var(--primaryColor);
+  box-shadow: 1px 4px 10px rgba(0, 0, 0, 0.25);
 
   display: flex;
   flex-direction: column;
   align-items: stretch;
-
-  @media (max-width: 1150px) {
-    width: 60%;
-  }
-
-  @media (max-width: 768px) {
-    width: 100%;
-  }
 `;
 
 export const FormLabel = styled.label`
   color: var(--whiteColor);
 
-  font-size: 2rem;
+  font-size: calc(1.25em + 1vmin);
   font-weight: 300;
 `;
 
@@ -52,7 +44,7 @@ export const FormInput = styled.input`
   outline: none;
   border-radius: 10px;
 
-  font-size: 1.5rem;
+  font-size: calc(1em + 1vmin);
   font-weight: 100;
   background-color: var(--secondaryColor);
   color: var(--whiteColor);
@@ -72,7 +64,7 @@ export const FormButton = styled.button`
   cursor: pointer;
   border-radius: 10px;
 
-  font-size: 1.75rem;
+  font-size: calc(1.15em + 1vmin);
   color: var(--whiteColor);
   background-color: var(--red);
 
@@ -94,7 +86,7 @@ export const FormButton = styled.button`
 `;
 
 export const NewToThisLink = styled.p`
-  font-size: 1.25rem;
+  font-size: calc(0.75em + 0.5vmin);
   color: var(--whiteColor);
   font-weight: 200;
   display: inline-block;

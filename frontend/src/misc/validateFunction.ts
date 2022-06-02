@@ -1,7 +1,7 @@
 import axios from "axios";
 import { accountUrl, validateUrl } from "./backendUrls";
 
-export default async (token: string) => {
+const func = async (token: string) => {
   try {
     const { data } = await axios.get(validateUrl, {
       headers: {
@@ -28,3 +28,5 @@ export default async (token: string) => {
     console.dir(err);
   }
 };
+
+export default func;

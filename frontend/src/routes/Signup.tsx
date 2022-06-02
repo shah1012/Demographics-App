@@ -22,14 +22,23 @@ import { signUp } from "../redux/reducer/UserReducer";
 import ClosedEyeSvg from "../Icons/closedEye.svg";
 import OpenEyeSvg from "../Icons/openEye.svg";
 import { useHistory } from "react-router-dom";
+import ErrorMessage from "../components/styled-components/ErrorMessege/ErrorMessege";
 
 const Signup = () => {
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [errMsg, setErrMsg] = useState<string>("");
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const displayErrorMsg = (msg: string) => {
+    setErrMsg(msg);
+    setTimeout(() => {
+      setErrMsg("");
+    }, 3000);
+  };
 
   const onFormSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -47,11 +56,9 @@ const Signup = () => {
           dispatch(signUp(userInfo));
         }
       })
-      .catch((err) =>
-        typeof err.response.data === "string"
-          ? alert(err.response.data)
-          : alert(err.response.data[0])
-      );
+      .catch((err) => {
+        displayErrorMsg(err.response.data[0]);
+      });
   };
 
   return (
@@ -87,6 +94,7 @@ const Signup = () => {
           </EyeWrapper>
 
           <FormButton onClick={onFormSubmit}>Sign up</FormButton>
+          <ErrorMessage msg={errMsg} />
 
           <NewToThisLink>
             Already have an account? {LinkToTHisPage("/login", "Login")}
